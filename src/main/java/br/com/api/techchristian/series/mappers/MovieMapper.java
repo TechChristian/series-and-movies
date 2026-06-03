@@ -4,15 +4,16 @@ import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.dto.MovieDto;
 
 public class MovieMapper {
-    public static Movie toEntity(MovieDto.Create create) {
+    public static Movie toEntity(MovieDto.Create dto) {
         Movie movie = new Movie();
 
-        movie.setTitle(create.title());
-        movie.setDescription(create.description());
-        movie.setGenre(create.genre());
-        movie.setContentType(create.type());
-        movie.setReleaseYear(create.releaseYear());
-        return movie;
+        return Movie.builder()
+                        .title(dto.title())
+                        .description(dto.description())
+                        .genre(dto.genre())
+                        .contentType(dto.type())
+                        .releaseYear(dto.releaseYear())
+                        .build();
     }
 
     public static MovieDto.Response toResponse(Movie movie) {
