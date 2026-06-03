@@ -5,9 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class MovieDto {
-    public record create(
+    public record Create(
             @NotBlank(message = "title is required.")
             @Size(min = 2, max = 255, message = "title must be between 2 and 255 characters.")
             String title,
@@ -25,14 +26,17 @@ public class MovieDto {
 
             @NotBlank(message = "releaseYear is required.")
             Integer releaseYear
-    ){}
+    ) {
+    }
 
-    public record response(
-    String title,
-    String description,
-    String genre,
-    ContentTypeEnum type,
-    Integer releaseYear,
-    LocalDateTime createAt
-    ){}
+    public record Response(
+            UUID id,
+            String title,
+            String description,
+            String genre,
+            ContentTypeEnum type,
+            Integer releaseYear,
+            LocalDateTime createAt
+    ) {
+    }
 }
