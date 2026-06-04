@@ -2,6 +2,7 @@ package br.com.api.techchristian.series.dto;
 
 import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
@@ -21,10 +22,10 @@ public class MovieDto {
             @Size(min = 4, max = 50, message = "genre must be between 4 and 50 characters.")
             String genre,
 
-            @NotBlank(message = "type is required.")
+            @NotNull(message = "type is required.")
             ContentTypeEnum type,
 
-            @NotBlank(message = "releaseYear is required.")
+            @NotNull(message = "releaseYear is required.")
             Integer releaseYear
     ) {
     }
