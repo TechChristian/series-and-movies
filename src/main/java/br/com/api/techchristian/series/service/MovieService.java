@@ -3,6 +3,7 @@ package br.com.api.techchristian.series.service;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.database.repository.IMovieRepository;
 import br.com.api.techchristian.series.dto.MovieDto;
+import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
 import br.com.api.techchristian.series.mappers.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class MovieService {
     public Movie save(MovieDto.Create dto) {
 
      if(movieRepository.findByTitle(dto.title()).isPresent()){
-         throw new IllegalArgumentException("Movie already exists.");
+         throw new MovieAlreadyExistsException("Movie already exists.");
      }
         Movie newMovie = MovieMapper.toEntity(dto);
         return movieRepository.save(newMovie);
