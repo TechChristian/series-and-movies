@@ -1,6 +1,7 @@
 package br.com.api.techchristian.series.handler;
 
 import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -38,5 +39,13 @@ public class GlobalExceptionHandler {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(new ErrorMessage(request, HttpStatus.BAD_REQUEST, "invalid content type"));
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorMessage> entityNotFoundException(EntityNotFoundException ex, HttpServletRequest request) {
+        log.error(ex.getMessage());
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 }
