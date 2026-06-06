@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -24,8 +21,15 @@ public class MovieController {
     public ResponseEntity<MovieDto.Response> createMovie(@Valid @RequestBody MovieDto.Create create) {
         Movie movie = movieService.createMovie(create);
         MovieDto.Response response = MovieMapper.toResponse(movie);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/{title}")
+    public ResponseEntity<MovieDto.Response> getMovie(@PathVariable String title) {
+        Movie movie = movieService.searchMovie(title);
+        MovieDto.Response response = MovieMapper.toResponse(movie);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
