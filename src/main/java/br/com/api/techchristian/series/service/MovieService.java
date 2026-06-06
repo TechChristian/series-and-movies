@@ -15,7 +15,7 @@ public class MovieService {
     private final IMovieRepository movieRepository;
 
     @Transactional
-    public Movie save(MovieDto.Create dto) {
+    public Movie createMovie(MovieDto.Create dto) {
 
      if(movieRepository.findByTitle(dto.title()).isPresent()){
          throw new MovieAlreadyExistsException("Movie already exists.");
