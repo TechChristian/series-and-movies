@@ -3,6 +3,8 @@ package br.com.api.techchristian.series.mappers;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.dto.MovieDto;
 
+import java.util.List;
+
 public class MovieMapper {
     public static Movie toEntity(MovieDto.Create dto) {
         Movie movie = new Movie();
@@ -26,5 +28,13 @@ public class MovieMapper {
                 movie.getReleaseYear(),
                 movie.getCreatedAt()
         );
+    }
+
+    public static List<MovieDto.Response> toResponse(List<Movie> movies) {
+        return
+                movies
+                        .stream()
+                        .map(MovieMapper::toResponse)
+                        .toList();
     }
 }
