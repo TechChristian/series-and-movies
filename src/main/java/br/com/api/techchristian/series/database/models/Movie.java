@@ -1,6 +1,7 @@
 package br.com.api.techchristian.series.database.models;
 
 import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
+import br.com.api.techchristian.series.database.enums.GenreEnum;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -23,8 +24,9 @@ public class Movie {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
-    private String genre;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "genre", nullable = false)
+    private GenreEnum genre;
 
     @Enumerated(EnumType.STRING) // -> Jpa save movies or series.
     @Column(name = "type", nullable = false)
