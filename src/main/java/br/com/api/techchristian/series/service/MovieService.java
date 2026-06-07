@@ -16,13 +16,15 @@ public class MovieService {
     private final IMovieRepository movieRepository;
 
     @Transactional
-    public Movie createMovie(MovieDto.Create dto) {
+    public Movie addMovie(MovieDto.Create movieInfos) {
 
-     if(movieRepository.findByTitle(dto.title()).isPresent()){
-         throw new MovieAlreadyExistsException("Movie already exists.");
-     }
-        Movie newMovie = MovieMapper.toEntity(dto);
-        return movieRepository.save(newMovie);
+        Movie movieRequestToEntity = MovieMapper.toEntity(movieInfos);
+
+        boolean existsTitle = movieRepository.existsByTitle(movieRequestToEntity.getTitle());
+
+        if (existsTitle) {throw new MovieAlreadyExistsException("Movie already exists.");}
+
+        return movieRepository.save(movieRequestToEntity);
     }
 
     @Transactional(readOnly = true)

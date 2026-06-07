@@ -7,5 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IMovieRepository extends JpaRepository<Movie, UUID> {
+    boolean existsByTitle(String title);
+
     Optional<Movie> findByTitle(String title);
 }
