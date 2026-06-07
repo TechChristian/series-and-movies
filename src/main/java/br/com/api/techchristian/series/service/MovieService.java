@@ -1,5 +1,6 @@
 package br.com.api.techchristian.series.service;
 
+import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.database.repository.IMovieRepository;
 import br.com.api.techchristian.series.dto.MovieDto;
@@ -9,6 +10,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,15 @@ public class MovieService {
     public Movie searchMovie(String title) {
        return movieRepository.findByTitle(title)
                 .orElseThrow(() -> new EntityNotFoundException("Movie not found."));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Movie> searchGenre(GenreEnum genre) {
+        boolean existsGenre = movieRepository.existsByGenre(genre);
+
+        if(!existsGenre) {throw new EntityNotFoundException("Genre not found.");}
+
+        return movieRepository.findByGenre(genre);
+
     }
 }

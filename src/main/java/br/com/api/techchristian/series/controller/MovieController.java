@@ -1,5 +1,6 @@
 package br.com.api.techchristian.series.controller;
 
+import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.dto.MovieDto;
 import br.com.api.techchristian.series.mappers.MovieMapper;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -32,4 +35,9 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/genre/{genre}")
+    public ResponseEntity<List<MovieDto.Response>> getGenre(@PathVariable GenreEnum genre) {
+        List<Movie> movies = movieService.searchGenre(genre);
+        return ResponseEntity.status(HttpStatus.OK).body(MovieMapper.toResponseList(movies));
+    }
 }
