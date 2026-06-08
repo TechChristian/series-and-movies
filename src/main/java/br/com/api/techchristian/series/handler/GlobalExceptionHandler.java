@@ -1,6 +1,8 @@
 package br.com.api.techchristian.series.handler;
 
+import br.com.api.techchristian.series.exception.GenreNotFoundException;
 import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
+import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -56,5 +58,23 @@ public class GlobalExceptionHandler {
                 ResponseEntity.status(HttpStatus.BAD_REQUEST)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(new ErrorMessage(request,HttpStatus.BAD_REQUEST, "invalid content type for genre"));
+    }
+
+    @ExceptionHandler(MovieNotFoundException.class)
+    public ResponseEntity<ErrorMessage> movieNotFoundException(MovieNotFoundException ex, HttpServletRequest request) {
+        log.error(ex.getMessage());
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
+    @ExceptionHandler(GenreNotFoundException.class)
+    public ResponseEntity<ErrorMessage> genreNotFoundException(GenreNotFoundException ex, HttpServletRequest request) {
+        log.error(ex.getMessage());
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 }

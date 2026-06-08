@@ -1,10 +1,13 @@
 package br.com.api.techchristian.series.service;
 
+import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
 import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.database.repository.IMovieRepository;
 import br.com.api.techchristian.series.dto.MovieDto;
+import br.com.api.techchristian.series.exception.GenreNotFoundException;
 import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
+import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import br.com.api.techchristian.series.mappers.MovieMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -33,16 +36,26 @@ public class MovieService {
     @Transactional(readOnly = true)
     public Movie searchMovie(String title) {
        return movieRepository.findByTitle(title)
-                .orElseThrow(() -> new EntityNotFoundException("Movie not found."));
+                .orElseThrow(() -> new MovieNotFoundException("Movie not found."));
     }
 
     @Transactional(readOnly = true)
     public List<Movie> searchGenre(GenreEnum genre) {
         boolean existsGenre = movieRepository.existsByGenre(genre);
 
-        if(!existsGenre) {throw new EntityNotFoundException("Genre not found.");}
+        if(!existsGenre) {throw new GenreNotFoundException("Genre not found.");}
 
         return movieRepository.findByGenre(genre);
 
+    }
+
+    @Transactional(readOnly = true)
+    public List<MovieDto.Response> listAllMovies(){
+
+        List<Movie> movies = movieRepository.findAll();
+
+        if(movies.isEmpty()) {throw new MovieNotFoundException("No movies found.");}
+
+        return MovieMapper.toResponseList(movies);
     }
 }
