@@ -40,4 +40,10 @@ public class MovieController {
         List<Movie> movies = movieService.searchGenre(genre);
         return ResponseEntity.status(HttpStatus.OK).body(MovieMapper.toResponseList(movies));
     }
+
+    @GetMapping
+    public ResponseEntity<List<MovieDto.Response>> getAllContents(){
+        List<MovieDto.Response> responseList = movieService.listAllContents();
+        return ResponseEntity.status(HttpStatus.OK).body(responseList);
+    }
 }

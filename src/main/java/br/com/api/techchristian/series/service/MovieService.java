@@ -50,7 +50,7 @@ public class MovieService {
     }
 
     @Transactional(readOnly = true)
-    public List<MovieDto.Response> listAllMovies(){
+    public List<MovieDto.Response> listAllContents(){
 
         List<Movie> movies = movieRepository.findAll();
 
