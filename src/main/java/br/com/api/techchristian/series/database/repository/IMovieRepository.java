@@ -1,5 +1,6 @@
 package br.com.api.techchristian.series.database.repository;
 
+import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
 import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,5 @@ public interface IMovieRepository extends JpaRepository<Movie, UUID> {
     Optional<Movie> findByTitle(String title);
     boolean existsByGenre(GenreEnum genre);
     List<Movie> findByGenre(GenreEnum genre);
+    List<Movie> findByContentType(ContentTypeEnum contentType);
 }

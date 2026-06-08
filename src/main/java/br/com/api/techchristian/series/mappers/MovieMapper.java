@@ -30,7 +30,7 @@ public class MovieMapper {
         );
     }
 
-    public static List<MovieDto.Response> toResponse(List<Movie> movies) {
+    public static List<MovieDto.Response> toResponseList(List<Movie> movies) {
         return
                 movies
                         .stream()
