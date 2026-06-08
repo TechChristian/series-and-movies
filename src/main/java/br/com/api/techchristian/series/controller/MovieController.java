@@ -29,8 +29,8 @@ public class MovieController {
     }
 
     @GetMapping("/{title}")
-    public ResponseEntity<MovieDto.Response> getMovie(@PathVariable String title) {
-        Movie movie = movieService.searchMovie(title);
+    public ResponseEntity<MovieDto.Response> getTitle(@PathVariable String title) {
+        Movie movie = movieService.searchTitle(title);
         MovieDto.Response response = MovieMapper.toResponse(movie);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);

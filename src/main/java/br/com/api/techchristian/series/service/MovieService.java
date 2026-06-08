@@ -34,7 +34,7 @@ public class MovieService {
     }
 
     @Transactional(readOnly = true)
-    public Movie searchMovie(String title) {
+    public Movie searchTitle(String title) {
        return movieRepository.findByTitle(title)
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found."));
     }
@@ -59,7 +59,7 @@ public class MovieService {
 
         List<Movie> movies = movieRepository.findAll();
 
-        if(movies.isEmpty()) {throw new MovieNotFoundException("No movies found.");}
+        if(movies.isEmpty()) {throw new MovieNotFoundException("No movies or series found.");}
 
         return MovieMapper.toResponseList(movies);
     }
