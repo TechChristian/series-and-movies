@@ -1,6 +1,6 @@
 package br.com.api.techchristian.series.database.enums;
 
-public enum Role {
-    USER("user"),
-    ADMIN("admin")
+public enum RoleName {
+    ROLE_USER,
+    ROLE_ADMIN
 }
