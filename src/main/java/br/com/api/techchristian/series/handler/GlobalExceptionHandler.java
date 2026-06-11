@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -71,6 +72,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(GenreNotFoundException.class)
     public ResponseEntity<ErrorMessage> genreNotFoundException(GenreNotFoundException ex, HttpServletRequest request) {
+        log.error(ex.getMessage());
+        return
+                ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ErrorMessage> usernameNotFoundException(UsernameNotFoundException ex, HttpServletRequest request) {
         log.error(ex.getMessage());
         return
                 ResponseEntity.status(HttpStatus.NOT_FOUND)
