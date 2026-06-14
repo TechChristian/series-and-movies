@@ -2,10 +2,7 @@ package br.com.api.techchristian.series.database.models;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 @NoArgsConstructor
@@ -13,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "roles")
 public class RolesEntity implements GrantedAuthority {
     @Id
