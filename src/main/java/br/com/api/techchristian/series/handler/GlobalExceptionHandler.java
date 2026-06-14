@@ -1,5 +1,6 @@
 package br.com.api.techchristian.series.handler;
 
+import br.com.api.techchristian.series.exception.EmailAlreadyException;
 import br.com.api.techchristian.series.exception.GenreNotFoundException;
 import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
 import br.com.api.techchristian.series.exception.MovieNotFoundException;
@@ -85,5 +86,12 @@ public class GlobalExceptionHandler {
                 ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(new ErrorMessage(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+    @ExceptionHandler(EmailAlreadyException.class)
+    public ResponseEntity<ErrorMessage> emailAlreadyException(EmailAlreadyException ex, HttpServletRequest request) {
+        return
+                ResponseEntity.status(HttpStatus.CONFLICT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
     }
 }
