@@ -5,13 +5,16 @@ import br.com.api.techchristian.series.database.models.RolesEntity;
 import br.com.api.techchristian.series.database.models.User;
 import br.com.api.techchristian.series.database.repository.IRoleRepository;
 import br.com.api.techchristian.series.database.repository.IUserRepository;
+import br.com.api.techchristian.series.dto.TokenResponseDto;
 import br.com.api.techchristian.series.dto.UserDto;
 import br.com.api.techchristian.series.exception.EmailAlreadyException;
 import br.com.api.techchristian.series.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +48,20 @@ public class AuthenticationService {
                 .name(registerDto.name())
                 .email(registerDto.email())
                 .roles(Set.of(role))
-                .password(registerDto.password())
+                .password(passwordEncoder.encode(registerDto.password()))
                 .build());
+    }
+
+    @Transactional
+    public TokenResponseDto login(UserDto.UserLoginDto userLoginDto){
+        try{
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginDto.email(), userLoginDto.password()));
+            String token = tokenProvider.generateToken(authentication);
+            return new TokenResponseDto(token, expirationTime);
+        }catch (BadCredentialsException e){
+            throw new BadCredentialsException("Invalid email or password");
+        }catch (Exception e){
+            throw e;
+        }
     }
 }
