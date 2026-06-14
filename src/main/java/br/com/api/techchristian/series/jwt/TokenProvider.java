@@ -21,7 +21,7 @@ public class TokenProvider {
     private String key;
 
     // * generate token for user authenticated.
-    private String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication) {
         UserDetails user = (UserDetails) authentication.getPrincipal();
         return buildToken(user.getUsername());
     }
@@ -53,7 +53,7 @@ public class TokenProvider {
     }
 
     // * return username save in token
-    private String getUsernameFromToken(String token) {
+    public String getUsernameFromToken(String token) {
         return getClaimsFromToken(token)
                 .getSubject();
     }
