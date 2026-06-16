@@ -60,8 +60,6 @@ public class AuthenticationService {
             return new TokenResponseDto(token, expirationTime);
         }catch (BadCredentialsException e){
             throw new BadCredentialsException("Invalid email or password");
-        }catch (Exception e){
-            throw e;
         }
     }
 }
