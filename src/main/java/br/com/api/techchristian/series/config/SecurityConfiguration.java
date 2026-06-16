@@ -26,7 +26,7 @@ public class SecurityConfiguration {
     private final JwtAuthenticationFilter  jwtAuthenticationFilter;
 
     @Bean
-    public SecurityFilterChain springSecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return
                 http
                         .csrf(AbstractHttpConfigurer::disable)
@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                                             response.setStatus(HttpStatus.FORBIDDEN.value());
                                         })).authorizeHttpRequests(auth -> auth
-                                .requestMatchers(HttpMethod.POST, "/v1/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/v1/api/auth/**").permitAll()
                                 .anyRequest()
                                 .authenticated()
                         )
@@ -47,12 +47,13 @@ public class SecurityConfiguration {
     }
 
     @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 }
