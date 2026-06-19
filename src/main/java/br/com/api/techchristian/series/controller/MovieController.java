@@ -3,6 +3,7 @@ package br.com.api.techchristian.series.controller;
 import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
 import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
+import br.com.api.techchristian.series.dto.MessageResponseDto;
 import br.com.api.techchristian.series.dto.MovieDto;
 import br.com.api.techchristian.series.mappers.MovieMapper;
 import br.com.api.techchristian.series.service.MovieService;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/movies")
@@ -54,5 +56,16 @@ public class MovieController {
     public ResponseEntity<List<MovieDto.Response>> getAllContents(){
         List<MovieDto.Response> responseList = movieService.listAllContents();
         return ResponseEntity.status(HttpStatus.OK).body(responseList);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<MessageResponseDto> updateMovieFields(@PathVariable UUID id, @Valid @RequestBody MovieDto.Update update){
+        movieService.updateFieldsMovie(id, update);
+
+        return ResponseEntity.ok(
+                new MessageResponseDto(
+                        "Movie info has been successfully updated."
+                )
+        );
     }
 }

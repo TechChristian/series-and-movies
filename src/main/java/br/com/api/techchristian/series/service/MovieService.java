@@ -9,12 +9,12 @@ import br.com.api.techchristian.series.exception.GenreNotFoundException;
 import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
 import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import br.com.api.techchristian.series.mappers.MovieMapper;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +62,24 @@ public class MovieService {
         if(movies.isEmpty()) {throw new MovieNotFoundException("No movies or series found.");}
 
         return MovieMapper.toResponseList(movies);
+    }
+
+    @Transactional
+    public Movie updateFieldsMovie(UUID id, MovieDto.Update movieFieldsUpdate) {
+        Movie movieExists = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found."));
+
+        if (movieFieldsUpdate.title() != null) {
+            movieExists.setTitle(movieFieldsUpdate.title());
+        }
+
+        if (movieFieldsUpdate.description() != null) {
+            movieExists.setDescription(movieFieldsUpdate.description());
+        }
+
+        if (movieFieldsUpdate.genre() != null) {
+            movieExists.setGenre(movieFieldsUpdate.genre());
+        }
+
+        return movieExists;
     }
 }
