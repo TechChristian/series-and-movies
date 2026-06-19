@@ -30,6 +30,12 @@ public class MovieDto {
     ) {
     }
 
+    public record Update(
+            String title,
+            String description,
+            GenreEnum genre
+    ){}
+
     public record Response(
             UUID id,
             String title,
