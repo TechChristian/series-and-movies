@@ -28,14 +28,16 @@ public class MovieService {
 
         boolean existsTitle = movieRepository.existsByTitle(movieRequestToEntity.getTitle());
 
-        if (existsTitle) {throw new MovieAlreadyExistsException("Movie already exists.");}
+        if (existsTitle) {
+            throw new MovieAlreadyExistsException("Movie already exists.");
+        }
 
         return movieRepository.save(movieRequestToEntity);
     }
 
     @Transactional(readOnly = true)
     public Movie searchTitle(String title) {
-       return movieRepository.findByTitle(title)
+        return movieRepository.findByTitle(title)
                 .orElseThrow(() -> new MovieNotFoundException("Movie not found."));
     }
 
@@ -43,7 +45,9 @@ public class MovieService {
     public List<Movie> searchGenre(GenreEnum genre) {
         boolean existsGenre = movieRepository.existsByGenre(genre);
 
-        if(!existsGenre) {throw new GenreNotFoundException("Genre not found.");}
+        if (!existsGenre) {
+            throw new GenreNotFoundException("Genre not found.");
+        }
 
         return movieRepository.findByGenre(genre);
 
@@ -55,11 +59,13 @@ public class MovieService {
     }
 
     @Transactional(readOnly = true)
-    public List<MovieDto.Response> listAllContents(){
+    public List<MovieDto.Response> listAllContents() {
 
         List<Movie> movies = movieRepository.findAll();
 
-        if(movies.isEmpty()) {throw new MovieNotFoundException("No movies or series found.");}
+        if (movies.isEmpty()) {
+            throw new MovieNotFoundException("No movies or series found.");
+        }
 
         return MovieMapper.toResponseList(movies);
     }
@@ -81,5 +87,13 @@ public class MovieService {
         }
 
         return movieExists;
+    }
+
+    @Transactional
+    public void deleteMovie(UUID id) {
+
+        movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found."));
+
+        movieRepository.deleteById(id);
     }
 }

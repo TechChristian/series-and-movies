@@ -58,6 +58,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(responseList);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<MessageResponseDto> updateMovieFields(@PathVariable UUID id, @Valid @RequestBody MovieDto.Update update){
         movieService.updateFieldsMovie(id, update);
@@ -67,5 +68,12 @@ public class MovieController {
                         "Movie info has been successfully updated."
                 )
         );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<MessageResponseDto> deleteMovie(@PathVariable UUID id){
+        movieService.deleteMovie(id);
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
