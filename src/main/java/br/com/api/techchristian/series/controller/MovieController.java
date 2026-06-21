@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/movies")
+@RequestMapping("/v1/api/movies")
 @RequiredArgsConstructor
 public class MovieController {
 
