@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +26,13 @@ public class UserService {
 
         return UserMapper.toResponseDto(users);
 
+    }
+
+    @Transactional
+    public void deleteUser(UUID id){
+        userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found."));
+
+        userRepository.deleteById(id);
     }
 
 }
