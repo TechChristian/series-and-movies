@@ -52,6 +52,7 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(MovieMapper.toResponseList(responseContentType));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<MovieDto.Response>> getAllContents(){
         List<MovieDto.Response> responseList = movieService.listAllContents();
@@ -69,9 +70,9 @@ public class MovieController {
                 )
         );
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<MessageResponseDto> deleteMovie(@PathVariable UUID id){
+    public ResponseEntity<Void> deleteMovie(@PathVariable UUID id){
         movieService.deleteMovie(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
