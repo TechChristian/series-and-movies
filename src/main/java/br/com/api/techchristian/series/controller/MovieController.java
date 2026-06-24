@@ -9,6 +9,7 @@ import br.com.api.techchristian.series.mappers.MovieMapper;
 import br.com.api.techchristian.series.service.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/v1/api/movies")
 @RequiredArgsConstructor
+@Slf4j
 public class MovieController {
 
     private final MovieService movieService;
@@ -27,8 +29,22 @@ public class MovieController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<MovieDto.Response> createMovie(@Valid @RequestBody MovieDto.Create create) {
+
+        log.info("Movie creation requested with these infos: title - {}, description - {}, genre - {}, type - {}, release year - {}",
+                create.title(),
+                create.description(),
+                create.genre(),
+                create.type(),
+                create.releaseYear());
+
         Movie movie = movieService.addMovie(create);
+
         MovieDto.Response response = MovieMapper.toResponse(movie);
+        log.info(
+                "Movie created successfully. id={}, title={}",
+                movie.getId(),
+                movie.getTitle());
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
