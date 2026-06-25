@@ -35,6 +35,14 @@ public class Movie {
     @Column(nullable = false)
     private Integer releaseYear;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private Double averageRating = 0.0;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer totalReviews = 0;
+
     private LocalDateTime createdAt;
 
     @PrePersist
