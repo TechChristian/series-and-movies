@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 public class ReviewDto {
     public record create(
             @NotNull(message = "The number it cannot be null")
@@ -15,10 +18,14 @@ public class ReviewDto {
             String comment
     ){}
     public record Response(
+            UUID id,
+
             Integer rating,
 
             String comment,
 
-            String userName
-    ){}
+            String userName,
+
+            LocalDateTime createdAt
+    ){ }
 }
