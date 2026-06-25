@@ -10,8 +10,8 @@ public class UserMapper {
     public static UserDto.UserResponseDto toResponseDto(User user){
         return new UserDto.UserResponseDto(
                 user.getId(),
-                user.getEmail(),
-                user.getName()
+                user.getName(),
+                user.getEmail()
         );
     }
 
