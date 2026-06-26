@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class ReviewDto {
-    public record create(
+    public record Create(
             @NotNull(message = "The number it cannot be null")
             @Size(min = 1, max = 5, message = "is required a note of 1 the 5.")
             Integer rating,
