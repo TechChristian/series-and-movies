@@ -7,7 +7,7 @@ import br.com.api.techchristian.series.database.models.User;
 import br.com.api.techchristian.series.dto.ReviewDto;
 
 public class ReviewMapper {
-    public static Review toEntity(ReviewDto.create create, User user, Movie movie) {
+    public static Review toEntity(ReviewDto.Create create, User user, Movie movie) {
         Review review = new Review();
 
         return Review.builder()
