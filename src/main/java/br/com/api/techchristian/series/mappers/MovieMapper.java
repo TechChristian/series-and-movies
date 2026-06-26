@@ -26,6 +26,7 @@ public class MovieMapper {
                 movie.getGenre(),
                 movie.getContentType(),
                 movie.getReleaseYear(),
+                movie.getAverageRating(),
                 movie.getCreatedAt()
         );
     }
