@@ -43,6 +43,7 @@ public class MovieDto {
             GenreEnum genre,
             ContentTypeEnum type,
             Integer releaseYear,
+            Double rating,
             LocalDateTime createAt
     ) {
     }
