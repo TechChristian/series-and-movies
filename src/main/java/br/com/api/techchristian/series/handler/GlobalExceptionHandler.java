@@ -1,9 +1,6 @@
 package br.com.api.techchristian.series.handler;
 
-import br.com.api.techchristian.series.exception.EmailAlreadyException;
-import br.com.api.techchristian.series.exception.GenreNotFoundException;
-import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
-import br.com.api.techchristian.series.exception.MovieNotFoundException;
+import br.com.api.techchristian.series.exception.*;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -113,5 +110,14 @@ public class GlobalExceptionHandler {
                 ResponseEntity.status(HttpStatus.FORBIDDEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(new ErrorMessage(request, HttpStatus.FORBIDDEN, "access denied"));
+    }
+
+    @ExceptionHandler(ReviewAlreadyExistsException.class)
+    public ResponseEntity<ErrorMessage> reviewAlreadyExistsException(ReviewAlreadyExistsException ex,HttpServletRequest request ) {
+        log.error(ex.getMessage());
+        return
+                ResponseEntity.status(HttpStatus.CONFLICT)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
     }
 }
