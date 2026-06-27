@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -63,4 +64,16 @@ public class ReviewService {
         movieRepository.save(movie);
     }
 
+    @Transactional(readOnly = true)
+    public List<ReviewDto.Response> getAllReviews() {
+        List<Review> reviews = reviewRepository.findAll();
+
+        if(reviews.isEmpty()){
+            throw new ReviewNotFoundException("Reviews not found.");
+        }
+
+        return ReviewMapper.toResponseList(reviews);
+
+
+    }
 }
