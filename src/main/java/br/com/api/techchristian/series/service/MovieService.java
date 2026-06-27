@@ -4,6 +4,7 @@ import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
 import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.database.repository.IMovieRepository;
+import br.com.api.techchristian.series.database.repository.IReviewRepository;
 import br.com.api.techchristian.series.dto.MovieDto;
 import br.com.api.techchristian.series.exception.GenreNotFoundException;
 import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class MovieService {
     private final IMovieRepository movieRepository;
+    private final IReviewRepository reviewRepository;
 
     @Transactional
     public Movie addMovie(MovieDto.Create movieInfos) {
@@ -91,6 +93,8 @@ public class MovieService {
 
     @Transactional
     public void deleteMovie(UUID id) {
+
+        reviewRepository.deleteByMovieId(id);
 
         movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found."));
 

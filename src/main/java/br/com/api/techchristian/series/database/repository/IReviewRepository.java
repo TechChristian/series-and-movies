@@ -19,4 +19,6 @@ public interface IReviewRepository extends JpaRepository<Review, UUID> {
     Double findAverageRating(@Param("movieId") UUID movieId);
 
     Long countByMovieId(UUID id);
+
+    void deleteByMovieId(UUID id);
 }

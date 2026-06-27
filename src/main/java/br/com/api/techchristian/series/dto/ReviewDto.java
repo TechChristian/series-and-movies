@@ -19,7 +19,10 @@ public class ReviewDto {
     public record Response(
             UUID id,
 
+            String title,
+
             Integer rating,
+
 
             String comment,
 

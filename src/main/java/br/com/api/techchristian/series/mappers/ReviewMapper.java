@@ -22,6 +22,7 @@ public class ReviewMapper {
     public static ReviewDto.Response toResponse(Review review) {
         return new ReviewDto.Response(
                 review.getId(),
+                review.getMovie().getTitle(),
                 review.getRating(),
                 review.getComment(),
                 review.getUser().getName(),
