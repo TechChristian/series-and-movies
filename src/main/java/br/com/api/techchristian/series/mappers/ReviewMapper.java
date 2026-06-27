@@ -6,6 +6,8 @@ import br.com.api.techchristian.series.database.models.Review;
 import br.com.api.techchristian.series.database.models.User;
 import br.com.api.techchristian.series.dto.ReviewDto;
 
+import java.util.List;
+
 public class ReviewMapper {
     public static Review toEntity(ReviewDto.Create create, User user, Movie movie) {
         Review review = new Review();
@@ -26,4 +28,12 @@ public class ReviewMapper {
                 review.getCreatedAt()
         );
     }
+    public static List<ReviewDto.Response> toResponseList(List<Review> reviews) {
+        return
+                reviews
+                        .stream()
+                        .map(ReviewMapper::toResponse)
+                        .toList();
+    }
+
 }
