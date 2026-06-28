@@ -38,6 +38,11 @@ public class SecurityConfiguration {
                                             response.setStatus(HttpStatus.FORBIDDEN.value());
                                         })).authorizeHttpRequests(auth -> auth
                                 .requestMatchers(HttpMethod.POST, "/v1/api/auth/**").permitAll()
+                                .requestMatchers(
+                                        "/series-docs/**",
+                                        "/series-docs.html",
+                                        "/swagger-ui/**"
+                                ).permitAll()
                                 .anyRequest()
                                 .authenticated()
                         )
