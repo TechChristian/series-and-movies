@@ -11,6 +11,7 @@ import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
 import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import br.com.api.techchristian.series.mappers.MovieMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MovieService {
     private final IMovieRepository movieRepository;
     private final IReviewRepository reviewRepository;
@@ -64,7 +66,7 @@ public class MovieService {
     @Transactional(readOnly = true)
     @Cacheable("movies")
     public List<MovieDto.Response> listAllContents() {
-        System.out.println("retrieving all contents... ");
+        log.info("retrieving all contents... ");
 
         List<Movie> movies = movieRepository.findAll();
 
