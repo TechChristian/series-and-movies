@@ -1,4 +1,4 @@
 package br.com.api.techchristian.series.openapi;
 
-public interface ReviewOpenAPi {
+public interface ReviewOpenApi {
 }
