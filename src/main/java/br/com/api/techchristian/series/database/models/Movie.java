@@ -4,6 +4,8 @@ import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
 import br.com.api.techchristian.series.database.enums.GenreEnum;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Table(name = "movies")
-public class Movie {
+public class Movie implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

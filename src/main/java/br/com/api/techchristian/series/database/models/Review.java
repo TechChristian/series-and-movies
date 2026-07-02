@@ -3,6 +3,7 @@ package br.com.api.techchristian.series.database.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @Table(name = "reviews")
-public class Review {
+public class Review implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
