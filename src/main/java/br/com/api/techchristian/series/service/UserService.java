@@ -22,7 +22,7 @@ public class UserService {
     public List<UserDto.UserResponseDto> listAllUsers() {
         List<User> users = userRepository.findAll();
 
-        if(users.isEmpty()) {throw new UsernameNotFoundException("User not found");}
+        if(users.isEmpty()) {throw new UsernameNotFoundException("Users not found");}
 
         return UserMapper.toResponseDto(users);
 

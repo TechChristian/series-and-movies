@@ -1,7 +1,8 @@
 package br.com.api.techchristian.series.controller;
 
-import br.com.api.techchristian.series.dto.MessageResponseDto;
+
 import br.com.api.techchristian.series.dto.UserDto;
+import br.com.api.techchristian.series.openapi.UsersOpenApi;
 import br.com.api.techchristian.series.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/users")
 
-public class UserController {
+public class UserController implements UsersOpenApi {
     private final UserService userService;
 
     @PreAuthorize("hasRole('ADMIN')")
