@@ -1,6 +1,7 @@
 package br.com.api.techchristian.series.controller;
 
 import br.com.api.techchristian.series.dto.ReviewDto;
+import br.com.api.techchristian.series.openapi.ReviewOpenApi;
 import br.com.api.techchristian.series.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("v1/api/movies")
 @RequiredArgsConstructor
-public class ReviewController {
+public class ReviewController implements ReviewOpenApi {
 
     private final ReviewService reviewService;
 
