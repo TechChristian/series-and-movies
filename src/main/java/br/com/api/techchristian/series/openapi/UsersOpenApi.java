@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface UsersOpenApi {
     @Operation(
@@ -26,4 +28,19 @@ public interface UsersOpenApi {
             }
     )
     public ResponseEntity<List<UserDto.UserResponseDto>> getAllUsers();
+
+    @Operation(
+            summary = "Delete user",
+            description = "A feature for Delete user for the Id.",
+            responses = {
+                    @ApiResponse(responseCode = "204",
+                    content = @Content(mediaType = "application/json")),
+
+                    @ApiResponse(responseCode = "404",
+                            description = "User not found",
+                            content = @Content(mediaType = "application/json"))
+            }
+    )
+    public ResponseEntity<Void> userDelete(@PathVariable UUID id);
+
 }
