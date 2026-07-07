@@ -1,6 +1,7 @@
 package br.com.api.techchristian.series.openapi;
 
 import br.com.api.techchristian.series.dto.UserDto;
+import br.com.api.techchristian.series.handler.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,7 +25,7 @@ public interface UsersOpenApi {
                     @ApiResponse(responseCode = "404",
                             description = "Users not found",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = UserDto.UserResponseDto.class)))
+                                    schema = @Schema(implementation = ErrorMessage.class))),
             }
     )
     public ResponseEntity<List<UserDto.UserResponseDto>> getAllUsers();
@@ -37,8 +38,8 @@ public interface UsersOpenApi {
                     content = @Content(mediaType = "application/json")),
 
                     @ApiResponse(responseCode = "404",
-                            description = "User not found",
-                            content = @Content(mediaType = "application/json"))
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class))),
             }
     )
     public ResponseEntity<Void> userDelete(@PathVariable UUID id);
