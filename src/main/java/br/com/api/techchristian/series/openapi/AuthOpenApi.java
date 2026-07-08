@@ -1,5 +1,6 @@
 package br.com.api.techchristian.series.openapi;
 
+import br.com.api.techchristian.series.dto.TokenResponseDto;
 import br.com.api.techchristian.series.dto.UserDto;
 import br.com.api.techchristian.series.handler.ErrorMessage;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface AuthOpenApi {
     @Operation(
             summary = "Register a new user.",
-            description = "A feature for register new user",
+            description = "A feature for register new user.",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
@@ -30,4 +31,25 @@ public interface AuthOpenApi {
             }
     )
     public ResponseEntity<UserDto.UserResponseDto> register (@Valid @RequestBody UserDto.UserRegisterDto registerDto);
+
+    @Operation(
+            summary = "Login of user.",
+            description = "A feature for login of user.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Login successful.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = TokenResponseDto.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "invalid email or password.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    )
+            }
+    )
+    public ResponseEntity<TokenResponseDto> login (@Valid @RequestBody UserDto.UserLoginDto loginDto);
+
 }
