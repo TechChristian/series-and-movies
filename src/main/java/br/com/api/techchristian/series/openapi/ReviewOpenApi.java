@@ -41,11 +41,11 @@ public interface ReviewOpenApi {
 
     @Operation(
             summary = "List all reviews",
-            description = "a feature for list all reviews",
+            description = "A feature for list all reviews",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
-                            description = "list all users.",
+                            description = "List all reviews.",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ReviewDto.Response.class))),
                     @ApiResponse(
