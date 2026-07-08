@@ -4,6 +4,7 @@ import br.com.api.techchristian.series.database.models.User;
 import br.com.api.techchristian.series.dto.TokenResponseDto;
 import br.com.api.techchristian.series.dto.UserDto;
 import br.com.api.techchristian.series.mappers.UserMapper;
+import br.com.api.techchristian.series.openapi.AuthOpenApi;
 import br.com.api.techchristian.series.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/auth")
 @Slf4j
-public class AuthController {
+public class AuthController implements AuthOpenApi {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto.UserResponseDto> register (@Valid @RequestBody UserDto.UserRegisterDto registerDto) throws BadRequestException {
+    public ResponseEntity<UserDto.UserResponseDto> register (@Valid @RequestBody UserDto.UserRegisterDto registerDto) {
         log.info("Create register user: name - {}, email - {}", registerDto.name(), registerDto.email());
 
         User user =  authenticationService.register(registerDto);
