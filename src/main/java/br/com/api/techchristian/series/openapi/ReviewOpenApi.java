@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface ReviewOpenApi {
@@ -19,7 +20,7 @@ public interface ReviewOpenApi {
             description = "A feature for add new review in movies or series.",
             responses = {
                     @ApiResponse(
-                        responseCode = "201",
+                            responseCode = "201",
                             description = "create review",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ReviewDto.Response.class))
@@ -33,8 +34,27 @@ public interface ReviewOpenApi {
                             responseCode = "409",
                             description = "You have already reviewed this movie.",
                             content = @Content(mediaType = "application/json",
-                                schema = @Schema(implementation = ErrorMessage.class)))
+                                    schema = @Schema(implementation = ErrorMessage.class)))
             }
     )
     public ResponseEntity<ReviewDto.Response> addReview(@PathVariable UUID movieId, @RequestBody @Valid ReviewDto.Create create);
+
+    @Operation(
+            summary = "List all reviews",
+            description = "a feature for list all reviews",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "list all users.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ReviewDto.Response.class))),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Reviews not found.",
+                            content = @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class))
+                    )
+            }
+    )
+    public ResponseEntity<List<ReviewDto.Response>> getAllReviews();
 }
