@@ -6,6 +6,7 @@ import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.dto.MessageResponseDto;
 import br.com.api.techchristian.series.dto.MovieDto;
 import br.com.api.techchristian.series.mappers.MovieMapper;
+import br.com.api.techchristian.series.openapi.MoviesOpenApi;
 import br.com.api.techchristian.series.service.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.UUID;
 @RequestMapping("/v1/api/movies")
 @RequiredArgsConstructor
 @Slf4j
-public class MovieController {
+public class MovieController implements MoviesOpenApi {
 
     private final MovieService movieService;
 
