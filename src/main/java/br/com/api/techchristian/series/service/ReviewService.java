@@ -10,6 +10,8 @@ import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import br.com.api.techchristian.series.exception.ReviewAlreadyExistsException;
 import br.com.api.techchristian.series.exception.ReviewNotFoundException;
 import br.com.api.techchristian.series.mappers.ReviewMapper;
+import br.com.api.techchristian.series.service.finder.MovieFinder;
+import br.com.api.techchristian.series.service.finder.ReviewFinder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +26,8 @@ import java.util.UUID;
 public class ReviewService {
     private final IReviewRepository reviewRepository;
     private final IMovieRepository movieRepository;
-
+    private final MovieFinder movieFinder;
+    private final ReviewFinder reviewFinder;
     @Transactional
     public ReviewDto.Response createReview(UUID movieId, ReviewDto.Create create){
         // * return user
@@ -34,10 +37,9 @@ public class ReviewService {
 
         User user = (User) authentication.getPrincipal();
 
-        Movie movie = movieRepository.findById(movieId)
-                .orElseThrow(() -> new MovieNotFoundException("Movie not found"));
+        Movie movie = movieFinder.byId(movieId);
 
-        boolean existsByUserIdAndMovieId = reviewRepository.existsByUserIdAndMovieId(user.getId(), movie.getId());
+        boolean existsByUserIdAndMovieId = reviewFinder.existsByUserIdAndMovieId(user.getId(), movieId);
 
         if(existsByUserIdAndMovieId){throw new ReviewAlreadyExistsException("You have already reviewed this movie.");}
 
@@ -52,8 +54,8 @@ public class ReviewService {
     }
 
     private void updateMovieRating(Movie movie) {
-        Double average = reviewRepository.findAverageRating(movie.getId());
-        Long total = reviewRepository.countByMovieId(movie.getId());
+        Double average = reviewFinder.findAverage(movie.getId());
+        Long total = reviewFinder.countByMovieId(movie.getId());
 
         if(average == null){
             average = 0.0;
@@ -67,7 +69,7 @@ public class ReviewService {
 
     @Transactional(readOnly = true)
     public List<ReviewDto.Response> getAllReviews() {
-        List<Review> reviews = reviewRepository.findAll();
+        List<Review> reviews = reviewFinder.listAll();
 
         if(reviews.isEmpty()){
             throw new ReviewNotFoundException("Reviews not found.");
