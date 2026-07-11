@@ -1,6 +1,7 @@
 package br.com.api.techchristian.series.service.finder;
 
 import br.com.api.techchristian.series.database.enums.ContentTypeEnum;
+import br.com.api.techchristian.series.database.enums.GenreEnum;
 import br.com.api.techchristian.series.database.models.Movie;
 import br.com.api.techchristian.series.database.repository.IMovieRepository;
 import br.com.api.techchristian.series.exception.MovieNotFoundException;
@@ -29,5 +30,16 @@ public class MovieFinder {
         return movieRepository.findByContentType(contentType);
     }
 
+    public boolean byGenreExists(GenreEnum genre){
+        return movieRepository.existsByGenre(genre);
+    }
+
+    public List<Movie> byGenre(GenreEnum genre){
+        return movieRepository.findByGenre(genre);
+    }
+
+    public List<Movie> listAll(){
+        return movieRepository.findAll();
+    }
 }
 

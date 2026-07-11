@@ -49,13 +49,13 @@ public class MovieService {
 
     @Transactional(readOnly = true)
     public List<Movie> searchGenre(GenreEnum genre) {
-        boolean existsGenre = movieRepository.existsByGenre(genre);
+        boolean existsGenre = movieFinder.byGenreExists(genre);
 
         if (!existsGenre) {
             throw new GenreNotFoundException("Genre not found.");
         }
 
-        return movieRepository.findByGenre(genre);
+        return movieFinder.byGenre(genre);
 
     }
 
@@ -69,7 +69,7 @@ public class MovieService {
     public List<MovieDto.Response> listAllContents() {
         log.info("retrieving all contents... ");
 
-        List<Movie> movies = movieRepository.findAll();
+        List<Movie> movies = movieFinder.listAll();
 
         if (movies.isEmpty()) {
             throw new MovieNotFoundException("No movies or series found.");
@@ -80,7 +80,7 @@ public class MovieService {
 
     @Transactional
     public Movie updateFieldsMovie(UUID id, MovieDto.Update movieFieldsUpdate) {
-        Movie movieExists = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found."));
+        Movie movieExists = movieFinder.byId(id);
 
         if (movieFieldsUpdate.title() != null) {
             movieExists.setTitle(movieFieldsUpdate.title());
