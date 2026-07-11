@@ -11,6 +11,7 @@ import br.com.api.techchristian.series.exception.MovieAlreadyExistsException;
 import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import br.com.api.techchristian.series.mappers.MovieMapper;
 import br.com.api.techchristian.series.openapi.MoviesOpenApi;
+import br.com.api.techchristian.series.service.finder.MovieFinder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,7 +27,7 @@ import java.util.UUID;
 public class MovieService {
     private final IMovieRepository movieRepository;
     private final IReviewRepository reviewRepository;
-
+    private final MovieFinder movieFinder;
     @Transactional
     public Movie addMovie(MovieDto.Create movieInfos) {
 
@@ -43,8 +44,7 @@ public class MovieService {
 
     @Transactional(readOnly = true)
     public Movie searchTitle(String title) {
-        return movieRepository.findByTitle(title)
-                .orElseThrow(() -> new MovieNotFoundException("Movie not found."));
+       return movieFinder.byTitle(title);
     }
 
     @Transactional(readOnly = true)
@@ -102,7 +102,7 @@ public class MovieService {
 
         reviewRepository.deleteByMovieId(id);
 
-        movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException("Movie not found."));
+        movieFinder.byId(id);
 
         movieRepository.deleteById(id);
     }
