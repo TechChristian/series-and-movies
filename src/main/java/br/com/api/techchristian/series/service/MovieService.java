@@ -61,7 +61,7 @@ public class MovieService {
 
     @Transactional(readOnly = true)
     public List<Movie> searchContentType(ContentTypeEnum contentType) {
-        return movieRepository.findByContentType(contentType);
+        return movieFinder.searchType(contentType);
     }
 
     @Transactional(readOnly = true)
