@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -49,6 +50,24 @@ public class AuthIntegrationTest {
         response.andExpect(jsonPath("$.id").isNotEmpty()).
                 andExpect(jsonPath("$.name").value("Christian"))
                 .andExpect(jsonPath("$.email").value("chris.lopes@gmail.com"));
+    }
+
+    @Test
+    void shouldReturnBadRequestStatus() throws Exception {
+        UserDto.UserRegisterDto userRegisterCredentials = new UserDto.UserRegisterDto(
+                "",
+                "christian@",
+                "12345678"
+        );
+        ResultActions response = performPostRegister(userRegisterCredentials)
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+
+        response.andExpect(jsonPath("$.status").value(400));
+        response.andExpect(jsonPath("$.message").value("Validation failed"));
+        response.andExpect(jsonPath("$.errors.name").value("name is required."));
+        response.andExpect(jsonPath("$.errors.email").value("Invalid email format"));
+
     }
 
 }
