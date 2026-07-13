@@ -1,6 +1,7 @@
 package br.com.api.techchristian.series.integration;
 
 import br.com.api.techchristian.series.database.repository.IUserRepository;
+import br.com.api.techchristian.series.dto.TokenResponseDto;
 import br.com.api.techchristian.series.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +37,13 @@ public class AuthIntegrationTest {
                         .content(objectMapper.writeValueAsString(registerCredentials))
         );
     }
+    private ResultActions performPostLogin(UserDto.UserLoginDto loginCredentials) throws Exception {
+        return mockMvc.perform(
+                post("/v1/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(loginCredentials))
+        );
+    }
 
     @Test
     void shouldRegisterUserSuccessfully() throws Exception {
@@ -59,15 +67,37 @@ public class AuthIntegrationTest {
                 "christian@",
                 "12345678"
         );
-        ResultActions response = performPostRegister(userRegisterCredentials)
+        ResultActions responseBadRequest = performPostRegister(userRegisterCredentials)
                 .andDo(print())
                 .andExpect(status().isBadRequest());
 
-        response.andExpect(jsonPath("$.status").value(400));
-        response.andExpect(jsonPath("$.message").value("Validation failed"));
-        response.andExpect(jsonPath("$.errors.name").value("name is required."));
-        response.andExpect(jsonPath("$.errors.email").value("Invalid email format"));
+        responseBadRequest.andExpect(jsonPath("$.status").value(400));
+        responseBadRequest.andExpect(jsonPath("$.message").value("Validation failed"));
+        responseBadRequest.andExpect(jsonPath("$.errors.name").value("name is required."));
+        responseBadRequest.andExpect(jsonPath("$.errors.email").value("Invalid email format"));
 
     }
 
+    @Test
+    void shouldLoginUserSuccessfully() throws Exception {
+        UserDto.UserRegisterDto userRegisterCredentials = new UserDto.UserRegisterDto(
+                "christian",
+                "chris@hotmail.com",
+                "12345678"
+        );
+        UserDto.UserLoginDto userLoginCredentials = new UserDto.UserLoginDto(
+                "chris@hotmail.com",
+                "12345678"
+        );
+        performPostRegister(userRegisterCredentials)
+                .andExpect(status().isCreated());
+
+    ResultActions response = performPostLogin(userLoginCredentials).
+                andDo(print())
+                .andExpect(status().isOk());
+
+    response.andExpect(jsonPath("$.token").isNotEmpty());
+    response.andExpect(jsonPath("$.expirationTime").isNumber());
+    }
 }
+
