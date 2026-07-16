@@ -6,7 +6,6 @@ import br.com.api.techchristian.series.database.models.User;
 import br.com.api.techchristian.series.database.repository.IMovieRepository;
 import br.com.api.techchristian.series.database.repository.IReviewRepository;
 import br.com.api.techchristian.series.dto.ReviewDto;
-import br.com.api.techchristian.series.exception.MovieNotFoundException;
 import br.com.api.techchristian.series.exception.ReviewAlreadyExistsException;
 import br.com.api.techchristian.series.exception.ReviewNotFoundException;
 import br.com.api.techchristian.series.mappers.ReviewMapper;
