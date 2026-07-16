@@ -1,10 +1,8 @@
 package br.com.api.techchristian.series.integration;
 
-import br.com.api.techchristian.series.database.repository.IUserRepository;
-import br.com.api.techchristian.series.dto.TokenResponseDto;
+import br.com.api.techchristian.series.database.models.User;
 import br.com.api.techchristian.series.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -98,6 +96,25 @@ public class AuthIntegrationTest {
 
     response.andExpect(jsonPath("$.token").isNotEmpty());
     response.andExpect(jsonPath("$.expirationTime").isNumber());
+    }
+
+    @Test
+    void shouldReturnLoginUnauthorized() throws Exception {
+        UserDto.UserRegisterDto userRegisterCredentials = new UserDto.UserRegisterDto(
+                "christian",
+                "chris@hotmail.com",
+                "12345678"
+        );
+        UserDto.UserLoginDto userLoginCredentials = new UserDto.UserLoginDto(
+                "shahs@hotmail.com",
+                "12345678"
+        );
+
+        performPostRegister(userRegisterCredentials)
+        .andExpect(status().isCreated());
+
+        performPostLogin(userLoginCredentials)
+                .andExpect(status().isUnauthorized());
     }
 }
 
