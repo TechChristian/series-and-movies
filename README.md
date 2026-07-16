@@ -176,13 +176,6 @@ http://localhost:8080/swagger-ui/index.html
 ---
 
 
-## 🗄️ Banco de Dados
-
-- MySQL
-- Spring Data JPA
-- Hibernate
-
----
 
 ## Cache
 
@@ -204,7 +197,7 @@ src
 ├── dto               # Objetos de transferência de dados
 ├── mappers           # Conversão entre entidades e DTOs
 ├── config            # Configurações da aplicação
-├── jwt          # Autenticação e autorização (JWT)
+├── jwt               # Autenticação e autorização (JWT)
 ├── exception         # Exceções personalizadas
 ├── handler           # Tratamento global de exceções
 └── openapi           # Documentação Swagger/OpenAPI
